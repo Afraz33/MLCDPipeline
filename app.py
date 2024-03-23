@@ -13,8 +13,8 @@ model = load('stroke.joblib')
 def predict():
     data = request.get_json(force=True)
 
-    # Intentional Flake8 violation: Unused variable
-    unused_variable = 42
+    # # Intentional Flake8 violation: Unused variable
+    # unused_variable = 42
 
     # Ensure the order of features matches the order expected by the model
     feature_values = [
