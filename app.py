@@ -6,13 +6,15 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load the pre-trained model
-# Intentional violation: using capital letter for variable name
-Model = load('stroke.joblib')
+model = load('stroke.joblib')
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json(force=True)
+
+    # Intentional Flake8 violation: Unused variable
+    unused_variable = 42
 
     # Ensure the order of features matches the order expected by the model
     feature_values = [
@@ -31,8 +33,7 @@ def predict():
                                'bmi', 'gender', 'ever_married', 'work_type', 'Residence_type', 'smoking_status'])
 
     # Predict using the model
-    # Intentional violation: using inconsistent variable name
-    prediction = Model.predict(features_df)
+    prediction = model.predict(features_df)
     output = prediction[0]
     return jsonify({'stroke_prediction': int(output)})
 
