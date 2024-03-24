@@ -36,8 +36,6 @@ def test_predict(client):
 
     # Additional tests can be added here based on expected behavior
 
-# Add more test cases as needed
-
 
 # def test_predict_invalid_data(client):
 #     # Test case data with invalid values
