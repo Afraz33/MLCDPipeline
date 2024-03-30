@@ -30,7 +30,7 @@ pipeline {
         stage('Email Notification') {
             steps {
                 
-                emailext subject: 'Jenkins Job Execution Successful',
+                emailext subject: 'Jenkins Job Execution Successful Notification',
                     body: 'The Jenkins job to containerize and push the application to Docker Hub was executed successfully.',
                     to: 'afraz3301@gmail.com'
             }
