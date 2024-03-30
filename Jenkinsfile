@@ -16,7 +16,7 @@ pipeline {
                     docker.build('afrazdev/mlops-ci/cd:latest')
                     
                     // Authenticate with Docker Hub
-                    docker.withRegistry('', 'docker-hub-credentials') {
+                    docker.withRegistry('', 'docker-credentials') {
                         // Push Docker image to Docker Hub
                         docker.image('afrazdev/mlops-ci/cd:latest').push()
                     }
