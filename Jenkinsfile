@@ -7,26 +7,9 @@ pipeline {
                git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
             }
         }
-                stage('Check Docker Installation') {
-            steps {
-                script {
-                    
-                   sh "docker --version"
-                }
-            }
-        }
+                
 
-        stage('Check Dockerfile') {
-            steps {
-                script {
-                    if (fileExists('Dockerfile')) {
-                        echo "Dockerfile found in the current directory."
-                    } else {
-                        error "Dockerfile not found in the current directory."
-                    }
-                }
-            }
-        }
+       
         stage('Build and Push Docker Image') {
             steps {
                 script {
@@ -44,5 +27,14 @@ pipeline {
                 }
             }
         }
+        stage('Email Notification') {
+            steps {
+                // Send email notification to administrator
+                emailext subject: 'Jenkins Job Execution Successful',
+                    body: 'The Jenkins job to containerize and push the application to Docker Hub was executed successfully.',
+                    to: 'afraz3301@gmail.com'
+            }
+        }
+
     }
 }
