@@ -7,6 +7,17 @@ pipeline {
                git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
             }
         }
+        stage('Check Dockerfile') {
+            steps {
+                script {
+                    if (fileExists('Dockerfile')) {
+                        echo "Dockerfile found in the current directory."
+                    } else {
+                        error "Dockerfile not found in the current directory."
+                    }
+                }
+            }
+        }
         stage('Build and Push Docker Image') {
             steps {
                 script {
