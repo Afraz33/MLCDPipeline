@@ -10,7 +10,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Use Jenkins Credentials
+                    
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         // Build Docker image
                         sh "docker build -t ${DOCKER_USERNAME}/MLOPS-CD/CD:latest"
