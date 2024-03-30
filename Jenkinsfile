@@ -12,7 +12,13 @@ pipeline {
             steps {
                 script {
                     // Load environment variables from file
-                    def dockerEnv = readProperties file: 'docker.env'
+                    def dockerEnv = readFile 'docker.env'
+
+                    // Split the contents into key-value pairs
+                    def envProps = dockerEnv.readLines().collectEntries {
+                        def (key, value) = it.split('=')
+                        [(key): value]
+                    }
 
                     // Build Docker image
                     sh "docker build -t ${dockerEnv.DOCKER_USERNAME}/your-image-name:latest ."
