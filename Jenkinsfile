@@ -7,13 +7,21 @@ pipeline {
                git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
             }
         }
-        stage('Build') {
+        stage('Build and Push Docker Image') {
+            
             steps {
-                script{
-               
-                env.BRANCH_NAME = scm.branches[0].name
-                echo "Branch name: ${env.BRANCH_NAME}"
-                sh "echo 'Hello, this is a test job from Jenkins! Branch: ${env.BRANCH_NAME}'"
+                script {
+                    // Load environment variables from file
+                    def dockerEnv = readProperties file: 'docker.env'
+
+                    // Build Docker image
+                    sh "docker build -t ${dockerEnv.DOCKER_USERNAME}/your-image-name:latest ."
+
+                    // Authenticate with Docker Hub
+                    sh "echo \"${dockerEnv.DOCKER_PASSWORD}\" | docker login -u \"${dockerEnv.DOCKER_USERNAME}\" --password-stdin"
+
+                    // Push Docker image to Docker Hub
+                    sh "docker push ${dockerEnv.DOCKER_USERNAME}/your-image-name:latest"
                 }
             }
         }
