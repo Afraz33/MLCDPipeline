@@ -1,40 +1,42 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Cloning from git') {
+        stage('Checkout') {
             steps {
-               git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
+                // Checkout the code from the main branch
+                  git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
             }
         }
-                
-
-       
+        
         stage('Build and Push Docker Image') {
             steps {
                 script {
+                    // Build Docker image
+                    docker.build('afrazdev/mlops-ci/cd:latest')
                     
-                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        
-                        sh "docker build -t ${DOCKER_USERNAME}/mlops-ci/cd:latest ."
-
-                        
-                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-
-                        
-                        sh "docker push ${DOCKER_USERNAME}/mlops-ci/cd:latest"
+                    // Authenticate with Docker Hub
+                    docker.withRegistry('', 'docker-hub-credentials') {
+                        // Push Docker image to Docker Hub
+                        docker.image('afrazdev/mlops-ci/cd:latest').push()
                     }
                 }
             }
         }
-        stage('Email Notification') {
-            steps {
-                
-                emailext subject: 'Jenkins Job Execution Successful Notification',
-                    body: 'The Jenkins job to containerize and push the application to Docker Hub was executed successfully.',
-                    to: 'afraz3301@gmail.com'
-            }
+    }
+    
+    post {
+        success {
+           
+            emailext subject: 'Docker Image Notification Email',
+                      body: 'The Docker image for your application has been successfully built and pushed to Docker Hub.',
+                      to: 'afraz3301@gmail.com'
         }
-
+        failure {
+            
+            emailext subject: 'Failed to build and push Docker image',
+                      body: 'There was an error while building and pushing the Docker image to Docker Hub.',
+                      to: 'afraz3301@gmail.com'
+        }
     }
 }
