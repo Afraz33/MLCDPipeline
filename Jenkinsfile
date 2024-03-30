@@ -7,6 +7,16 @@ pipeline {
                git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
             }
         }
+                stage('Check Docker Installation') {
+            steps {
+                script {
+                    // Check if Docker command is available
+                    def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
+                    echo "Docker version: ${dockerVersion}"
+                }
+            }
+        }
+
         stage('Check Dockerfile') {
             steps {
                 script {
