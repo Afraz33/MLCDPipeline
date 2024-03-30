@@ -11,8 +11,7 @@ pipeline {
             steps {
                 script {
                     // Check if Docker command is available
-                    def dockerVersion = sh(script: 'docker --version', returnStdout: true).trim()
-                    echo "Docker version: ${dockerVersion}"
+                   sh "docker --version"
                 }
             }
         }
