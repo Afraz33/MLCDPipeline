@@ -8,26 +8,19 @@ pipeline {
             }
         }
         stage('Build and Push Docker Image') {
-            
             steps {
                 script {
-                    // Load environment variables from file
-                    def dockerEnv = readFile 'docker.env'
+                    // Use Jenkins Credentials
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // Build Docker image
+                        sh "docker build -t ${DOCKER_USERNAME}/MLOPS-CI/CD:latest ."
 
-                    // Split the contents into key-value pairs
-                    def envProps = dockerEnv.readLines().collectEntries {
-                        def (key, value) = it.split('=')
-                        [(key): value]
+                        // Authenticate with Docker Hub
+                        sh "echo \"${DOCKER_PASSWORD}\" | docker login -u \"${DOCKER_USERNAME}\" --password-stdin"
+
+                        // Push Docker image to Docker Hub
+                        sh "docker push ${DOCKER_USERNAME}/MLOPS-CI/CD:latest"
                     }
-
-                    // Build Docker image
-                    sh "docker build -t ${envProps['DOCKER_USERNAME']}/your-image-name:latest ."
-
-                    // Authenticate with Docker Hub
-                    sh "echo \"${envProps['DOCKER_PASSWORD']}\" | docker login -u \"${envProps['DOCKER_USERNAME']}\" --password-stdin"
-
-                    // Push Docker image to Docker Hub
-                    sh "docker push ${envProps['DOCKER_USERNAME']}/your-image-name:latest"
                 }
             }
         }
