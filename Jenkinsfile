@@ -10,7 +10,7 @@ pipeline {
                 stage('Check Docker Installation') {
             steps {
                 script {
-                    // Check if Docker command is available
+                    
                    sh "docker --version"
                 }
             }
