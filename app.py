@@ -16,7 +16,7 @@ def predict():
     # # Intentional Flake8 violation: Unused variable
     unused_variable = 42
     # unused_variable3 = 42
-
+    # unused_variable3 = 42
     # Ensure the order of features matches the order expected by the model
     feature_values = [
         data['age'],
