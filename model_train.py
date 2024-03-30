@@ -46,3 +46,5 @@ print(f"Model accuracy: {score:.2f}")
 
 # Serialize the model
 dump(clf, 'stroke.joblib')
+
+#Test for the PR
