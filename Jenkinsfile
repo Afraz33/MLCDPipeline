@@ -21,13 +21,13 @@ pipeline {
                     }
 
                     // Build Docker image
-                    sh "docker build -t ${dockerEnv.DOCKER_USERNAME}/your-image-name:latest ."
+                    sh "docker build -t ${envProps['DOCKER_USERNAME']}/your-image-name:latest ."
 
                     // Authenticate with Docker Hub
-                    sh "echo \"${dockerEnv.DOCKER_PASSWORD}\" | docker login -u \"${dockerEnv.DOCKER_USERNAME}\" --password-stdin"
+                    sh "echo \"${envProps['DOCKER_PASSWORD']}\" | docker login -u \"${envProps['DOCKER_USERNAME']}\" --password-stdin"
 
                     // Push Docker image to Docker Hub
-                    sh "docker push ${dockerEnv.DOCKER_USERNAME}/your-image-name:latest"
+                    sh "docker push ${envProps['DOCKER_USERNAME']}/your-image-name:latest"
                 }
             }
         }
