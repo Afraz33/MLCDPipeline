@@ -19,7 +19,7 @@ pipeline {
                         sh "docker build -t ${DOCKER_USERNAME}/mlops-ci/cd:latest ."
 
                         
-                        sh "echo \"${DOCKER_PASSWORD}\" | docker login -u \"${DOCKER_USERNAME}\" --password-stdin"
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
 
                         
                         sh "docker push ${DOCKER_USERNAME}/mlops-ci/cd:latest"
