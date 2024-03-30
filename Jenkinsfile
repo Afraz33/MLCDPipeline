@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Cloning from git') {
+            steps {
+               git branch: 'master', url: 'https://github.com/Afraz33/MLCDPipeline'
+            }
+        }
         stage('Build') {
             steps {
                 // Execute shell command to echo a message along with branch name
