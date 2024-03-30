@@ -21,7 +21,7 @@ pipeline {
                         
                         sh "echo \"${DOCKER_PASSWORD}\" | docker login -u \"${DOCKER_USERNAME}\" --password-stdin"
 
-                        // Push Docker image to Docker Hub
+                        
                         sh "docker push ${DOCKER_USERNAME}/mlops-ci/cd:latest"
                     }
                 }
@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Email Notification') {
             steps {
-                // Send email notification to administrator
+                
                 emailext subject: 'Jenkins Job Execution Successful',
                     body: 'The Jenkins job to containerize and push the application to Docker Hub was executed successfully.',
                     to: 'afraz3301@gmail.com'
