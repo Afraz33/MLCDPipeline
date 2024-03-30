@@ -15,7 +15,7 @@ pipeline {
                         
                         sh "docker build -t ${DOCKER_USERNAME}/MLOPS-CD/CD:latest"
 
-                        // Authenticate with Docker Hub
+                        
                         sh "echo \"${DOCKER_PASSWORD}\" | docker login -u \"${DOCKER_USERNAME}\" --password-stdin"
 
                         // Push Docker image to Docker Hub
