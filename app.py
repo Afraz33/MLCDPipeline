@@ -34,6 +34,7 @@ def predict():
                                'bmi', 'gender', 'ever_married', 'work_type', 'Residence_type', 'smoking_status'])
 
     # Predict using the model
+    # Random Commit 1 for demo 1
     prediction = model.predict(features_df)
     output = prediction[0]
     return jsonify({'stroke_prediction': int(output)})
