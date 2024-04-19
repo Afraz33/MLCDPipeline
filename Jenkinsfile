@@ -13,12 +13,12 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    docker.build('afrazdev/mlops:v1')
+                    docker.build('afrazdev/mlopsa1:v1')
                     
                     // Authenticate with Docker Hub
                     docker.withRegistry('', 'docker-credentials') {
                         // Push Docker image to Docker Hub
-                        docker.image('afrazdev/mlops:v1').push()
+                        docker.image('afrazdev/mlopsa1:v1').push()
                     }
                 }
             }
