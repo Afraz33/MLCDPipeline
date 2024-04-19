@@ -35,6 +35,7 @@ def predict():
 
     # Predict using the model
     # Random Commit 1 for demo 1
+    # Random Commit 2 for demo 1
     prediction = model.predict(features_df)
     output = prediction[0]
     return jsonify({'stroke_prediction': int(output)})
